@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Dir</string>
+    <string name="app_name">We\'re Square</string>
     <string name="empty_list">There are no employees here!</string>
     <string name="error_generic">Sorry, something went wrong. Try again later.</string>
     <string name="menu_empty">Simulate an empty list</string>

@@ -65,7 +65,7 @@ class EmployeesFragmentImpl : EmployeesFragment, Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
-    fun subscribeToStreams() {
+    private fun subscribeToStreams() {
         viewModel
             .uiState
             .defaultSchedulers()
@@ -151,6 +151,7 @@ class EmployeesFragmentImpl : EmployeesFragment, Fragment() {
                 itemView.name_textview.text = employee.full_name
                 itemView.team_textview.text = employee.team
                 itemView.bio_textview.text = employee.biography
+                itemView.employee_type.text = employee.employee_type
             }
         }
     }

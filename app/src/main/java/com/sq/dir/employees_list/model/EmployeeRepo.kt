@@ -1,38 +1,19 @@
 package com.sq.dir.employees_list.model
 
-import com.sq.dir.Api
+import androidx.annotation.VisibleForTesting
 import io.reactivex.Observable
 
+/**
+ * Copyright (c) 2019 Pandora Media, Inc.
+ */
+interface EmployeeRepo{
+    fun getEmployees(fetchType: EmployeeRepoImpl.FetchType): Observable<List<Employee>>
+    @VisibleForTesting
+    fun getEmployeesNormal(): Observable<List<Employee>>
 
-class EmployeeRepo {
+    @VisibleForTesting
+    fun getEmployeesEmpty(): Observable<List<Employee>>
 
-    enum class FetchType {
-        NORMAL,
-        EMPTY,
-        ERROR
-    }
-
-    fun getEmployees(fetchType: FetchType): Observable<List<Employee>> {
-        return when (fetchType) {
-            FetchType.NORMAL ->
-                Api.getEmployees().map { it.employees }
-            FetchType.EMPTY ->
-                Api.getEmptyEmployees().map { it.employees }
-            FetchType.ERROR ->
-                Api.getMalformedEmployees().map { it.employees }
-        }
-    }
+    @VisibleForTesting
+    fun getEmployeesMalformed(): Observable<List<Employee>>
 }
-
-
-//    /**
-//     * Most json parsers won't thrown an exception if a field is missing
-//     * 
-//     */
-//    fun checkRequiredFields(employee: Employee): Boolean {
-//        return employee.uuid.isNotEmpty() 
-//                && employee.team.isNotEmpty()
-//                && employee.full_name.isNotEmpty()
-//                && employee.email_address.isNotEmpty()
-//                && employee.employee_type.isNotEmpty()
-//    }

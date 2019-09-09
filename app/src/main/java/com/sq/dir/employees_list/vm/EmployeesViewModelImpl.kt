@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.sq.dir.TAG
 import com.sq.dir.defaultSchedulers
-import com.sq.dir.employees_list.model.EmployeeRepo
+import com.sq.dir.employees_list.model.EmployeeRepoImpl
 import com.sq.dir.employees_list.model.UiState
 import com.sq.dir.into
 import io.reactivex.disposables.CompositeDisposable
@@ -16,27 +16,28 @@ class EmployeesViewModelImpl : EmployeesViewModel, ViewModel() {
 
     val bin = CompositeDisposable()
     val uiState = BehaviorSubject.create<UiState>()
-    val repo = EmployeeRepo()
+    val repo = EmployeeRepoImpl()
 
     override fun viewLoaded() {
         uiState.onNext(UiState.Loading)
-        requestEmployees(EmployeeRepo.FetchType.NORMAL)
+        requestEmployees(EmployeeRepoImpl.FetchType.NORMAL)
     }
 
     override fun loadEmptyClicked() {
-        requestEmployees(EmployeeRepo.FetchType.EMPTY)
+        requestEmployees(EmployeeRepoImpl.FetchType.EMPTY)
     }
 
     override fun loadNormalClicked() {
-        requestEmployees(EmployeeRepo.FetchType.NORMAL)
+        requestEmployees(EmployeeRepoImpl.FetchType.NORMAL)
     }
     
     override fun loadMalformedClicked() {
+        //TODO get answer from jennifer
 //        requestEmployees(EmployeeRepo.FetchType.ERROR)
                             uiState.onNext(UiState.Error)
     }
 
-    override fun requestEmployees(fetchType: EmployeeRepo.FetchType) {
+    override fun requestEmployees(fetchType: EmployeeRepoImpl.FetchType) {
         repo.getEmployees(fetchType)
             .defaultSchedulers()
             .subscribeBy(
