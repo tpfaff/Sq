@@ -1,27 +1,31 @@
 package com.sq.dir
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.rxkotlin.subscribeBy
-import io.reactivex.schedulers.Schedulers
+import com.sq.dir.employees_list.view.EmployeesFragmentImpl
+import io.reactivex.disposables.CompositeDisposable
 
 class MainActivity : AppCompatActivity() {
+
+    private val bin = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        Api.getEmployees()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeBy(
-                onNext = {
-                    Log.d(TAG, it.toString())
-                },
-                onError = {
-                    Log.e(TAG, it.message, it)
-                }
-            )
+        if (savedInstanceState == null) {
+            supportFragmentManager
+                .beginTransaction()
+                .replace(
+                    R.id.fragment_container,
+                    EmployeesFragmentImpl.newInstance(),
+                    EmployeesFragmentImpl.TAG
+                )
+                .commit()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        bin.clear()
     }
 }
