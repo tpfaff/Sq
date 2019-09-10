@@ -1,21 +1,14 @@
 package com.sq.dir
 
-import com.sq.dir.employees_list.model.Employee
 import com.sq.dir.employees_list.model.EmployeeRepoImpl
-import io.reactivex.Observable
-import io.reactivex.Single
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mock
 import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
 import org.mockito.Spy
-import org.mockito.Mockito.`when` as whenever
 
 
-/**
- * Copyright (c) 2019 Pandora Media, Inc.
- */
+
 
 class EmployeeRepoImplTest {
     @Spy
@@ -40,7 +33,7 @@ class EmployeeRepoImplTest {
 
     @Test
     fun testMalformedTypeMatchesNetworkRequest() {
-        repo.getEmployees(EmployeeRepoImpl.FetchType.ERROR)
+        repo.getEmployees(EmployeeRepoImpl.FetchType.MALFORMED)
         verify(repo).getEmployeesMalformed()
 
     }

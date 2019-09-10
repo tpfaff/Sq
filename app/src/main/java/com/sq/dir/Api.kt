@@ -1,18 +1,18 @@
 package com.sq.dir
 
-import com.google.gson.Gson
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.sq.dir.employees_list.model.EmployeesResponse
 import io.reactivex.Observable
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.jackson.JacksonConverterFactory
 
 
 class Api {
     private val BASE_URL = "https://s3.amazonaws.com/sq-mobile-interview/"
     private var retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
-        .addConverterFactory(GsonConverterFactory.create(Gson().newBuilder().serializeNulls().create()))
+        .addConverterFactory(JacksonConverterFactory.create(jacksonObjectMapper()))
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .build()
 

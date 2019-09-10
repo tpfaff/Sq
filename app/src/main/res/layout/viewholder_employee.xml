@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
 
         android:layout_margin="16dp"
-        android:textSize="16sp"
+        android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@id/employee_imageview"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -28,10 +28,16 @@
         android:id="@+id/team_textview"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@id/name_textview"
         app:layout_constraintTop_toBottomOf="@id/name_textview" />
+
+    <TextView
+        android:id="@+id/employee_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/team_textview"
+        app:layout_constraintTop_toBottomOf="@id/team_textview" />
+
 
     <TextView
         android:id="@+id/bio_textview"
@@ -40,14 +46,27 @@
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/name_textview"
-        app:layout_constraintTop_toBottomOf="@id/team_textview" />
+        app:layout_constraintTop_toBottomOf="@id/employee_type" />
 
     <TextView
-        android:id="@+id/employee_type"
-        android:layout_width="wrap_content"
+        android:id="@+id/contact_info_textview"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_marginTop="4dp"
+        android:textSize="12sp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/bio_textview"
+        app:layout_constraintTop_toBottomOf="@id/bio_textview" />
+    
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="4dp"
+        android:background="?android:attr/dividerVertical"
+        app:layout_constraintTop_toBottomOf="@id/contact_info_textview"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

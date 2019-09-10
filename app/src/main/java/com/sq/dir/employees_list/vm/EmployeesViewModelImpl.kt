@@ -14,9 +14,9 @@ import io.reactivex.subjects.BehaviorSubject
 
 class EmployeesViewModelImpl : EmployeesViewModel, ViewModel() {
 
-    val bin = CompositeDisposable()
+    private val bin = CompositeDisposable()
     val uiState = BehaviorSubject.create<UiState>()
-    val repo = EmployeeRepoImpl()
+    private val repo = EmployeeRepoImpl()
 
     override fun viewLoaded() {
         uiState.onNext(UiState.Loading)
@@ -24,17 +24,18 @@ class EmployeesViewModelImpl : EmployeesViewModel, ViewModel() {
     }
 
     override fun loadEmptyClicked() {
+        uiState.onNext(UiState.Loading)
         requestEmployees(EmployeeRepoImpl.FetchType.EMPTY)
     }
 
     override fun loadNormalClicked() {
+        uiState.onNext(UiState.Loading)
         requestEmployees(EmployeeRepoImpl.FetchType.NORMAL)
     }
     
     override fun loadMalformedClicked() {
-        //TODO get answer from jennifer
-//        requestEmployees(EmployeeRepo.FetchType.ERROR)
-                            uiState.onNext(UiState.Error)
+        uiState.onNext(UiState.Loading)
+        requestEmployees(EmployeeRepoImpl.FetchType.MALFORMED)
     }
 
     override fun requestEmployees(fetchType: EmployeeRepoImpl.FetchType) {

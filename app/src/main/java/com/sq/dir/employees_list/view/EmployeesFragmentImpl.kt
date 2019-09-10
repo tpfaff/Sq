@@ -1,5 +1,6 @@
 package com.sq.dir.employees_list.view
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -91,6 +92,7 @@ class EmployeesFragmentImpl : EmployeesFragment, Fragment() {
         error_textview.visibility = View.GONE
         recycler_view.visibility = View.VISIBLE
         recycler_view.adapter = EmployeeAdapter(data)
+        
     }
 
     override fun showEmptyView() {
@@ -103,10 +105,12 @@ class EmployeesFragmentImpl : EmployeesFragment, Fragment() {
     override fun showLoadingView() {
         progress_bar.visibility = View.VISIBLE
         error_textview.visibility = View.GONE
+        recycler_view.visibility = View.GONE
     }
 
     override fun showErrorView() {
         progress_bar.visibility = View.GONE
+        recycler_view.visibility = View.GONE
         recycler_view.visibility = View.GONE
         error_textview.visibility = View.VISIBLE
         error_textview.text = getString(R.string.error_generic)
@@ -145,6 +149,7 @@ class EmployeesFragmentImpl : EmployeesFragment, Fragment() {
         }
 
         inner class EmployeeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+            @SuppressLint("SetTextI18n")
             fun bind(employee: Employee) {
                 Glide.with(itemView.context).load(employee.photo_url_small)
                     .into(itemView.employee_imageview)
@@ -152,6 +157,8 @@ class EmployeesFragmentImpl : EmployeesFragment, Fragment() {
                 itemView.team_textview.text = employee.team
                 itemView.bio_textview.text = employee.biography
                 itemView.employee_type.text = employee.employee_type
+                itemView.contact_info_textview.text = "${employee.email_address} - ${employee.phone_number}"
+                
             }
         }
     }
