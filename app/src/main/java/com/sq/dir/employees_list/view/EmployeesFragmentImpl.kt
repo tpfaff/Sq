@@ -4,26 +4,22 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.sq.dir.R
-import com.sq.dir.TAG
-import com.sq.dir.defaultSchedulers
-import com.sq.dir.employees_list.vm.EmployeesViewModelImpl
+import com.sq.dir.*
+import com.sq.dir.employee_detail.EmployeeDetailFragment
 import com.sq.dir.employees_list.model.Employee
 import com.sq.dir.employees_list.model.UiState
-import com.sq.dir.into
+import com.sq.dir.employees_list.vm.EmployeesViewModelImpl
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.fragment_employees.*
 import kotlinx.android.synthetic.main.viewholder_employee.view.*
-import java.lang.RuntimeException
 
 
-class EmployeesFragmentImpl : EmployeesFragment, Fragment() {
+class EmployeesFragmentImpl : EmployeesFragment, BaseFragment() {
     private val viewModel: EmployeesViewModelImpl by lazy {
         ViewModelProviders.of(this).get(EmployeesViewModelImpl::class.java)
     }
@@ -32,7 +28,6 @@ class EmployeesFragmentImpl : EmployeesFragment, Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        subscribeToStreams()
         setHasOptionsMenu(true)
     }
 
@@ -47,9 +42,11 @@ class EmployeesFragmentImpl : EmployeesFragment, Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recycler_view.layoutManager = LinearLayoutManager(context)
-        if(savedInstanceState == null) {
+        if (restoredFromBackstack.not()) {
             viewModel.viewLoaded()
         }
+
+        subscribeToStreams()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -149,6 +146,21 @@ class EmployeesFragmentImpl : EmployeesFragment, Fragment() {
         }
 
         inner class EmployeeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+            init {
+                itemView.setOnClickListener {
+                    val args = Bundle()
+                    args.putParcelable(EmployeeDetailFragment.EXTRA_EMPLOYEE, data[adapterPosition])
+                    fragmentManager
+                        ?.beginTransaction()
+                        ?.replace(
+                            R.id.fragment_container,
+                            EmployeeDetailFragment.newInstance(args),
+                            EmployeeDetailFragment.TAG
+                        )
+                        ?.addToBackStack(EmployeeDetailFragment.TAG)
+                        ?.commit()
+                }
+            }
             @SuppressLint("SetTextI18n")
             fun bind(employee: Employee) {
                 Glide.with(itemView.context).load(employee.photo_url_small)
